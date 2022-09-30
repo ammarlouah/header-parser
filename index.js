@@ -2,6 +2,7 @@
 // where your node app starts
 
 // init project
+// require('./startup/prod')(app);
 require('dotenv').config();
 var express = require('express');
 var app = express();
@@ -23,6 +24,14 @@ app.get('/', function (req, res) {
 app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
+
+app.use('/api/whoami',function(req,res){
+  res.json({
+    ipaddress : req.ip,
+    language : req.acceptsLanguages(),
+    software : req.headers["user-agent"],
+  })
+})
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
